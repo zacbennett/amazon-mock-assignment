@@ -5,8 +5,6 @@ public class User {
     private Cart cart;
 
     public User() {
-        // Session and Cart act as singletons for the user object. One user object should not have 
-        //   more than one session or cart object
         session = new Session();
         cart = new Cart();
     }
