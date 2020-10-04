@@ -3,10 +3,14 @@ import java.util.List;
 public class User {
     private Session session; 
     private Cart cart;
+    private String email;
+    private String password;
 
-    public User() {
+    public User(String email, String password) {
         session = new Session();
         cart = new Cart();
+        email = email;
+        password = password;
     }
 
     private void handleUserInteraction() {
@@ -68,4 +72,31 @@ public class Session{
     public void setLastInteractionTime() {
         lastInteractionTime = getCurrentUnixTimeStamp();
     }
+}
+
+class MainAccountCreator{
+    private DB db;
+    private MainAccountCreator instance;
+    static {
+        instance = new MainAccountCreator();
+    }
+    
+    public MainAccountCreator getInstance() {
+        return instance;
+    }
+
+    public User addUser(String email, String password) {
+        User newUser = new User(email, password);
+        this.db.createUser(newUser); 
+        return newUser
+    }
+
+    public void deleteUser(String email) {
+        this.db.deleteUserByEmail(email); 
+    }
+}
+
+public interface DB {
+    public void createUser(User user);
+    public void deleteUserByEmail(String email);
 }
