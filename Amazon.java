@@ -136,6 +136,13 @@ class Cart {
         instance = new Cart();
     }
     
+    public void listItems() {
+        for (int count = 0; count < itemCart.size(); count++) {
+            item = itemCart.get(count);
+            System.out.println(item.getName() + "Price: " + item.getPrice() + "Description: " + item.getDescription() + "Quantity": itemUpdate());
+        }
+    }
+
     public void addItem(Item newItem) {
         for (int count = 0; count < itemCart.size(); count++) {
             item = itemCart.get(count);
@@ -148,12 +155,7 @@ class Cart {
         }
     }
   
-    public void listItems() {
-        for (int count = 0; count < itemCart.size(); count++) {
-            item = itemCart.get(count);
-            System.out.println(item.getName() + ": " + item.getPrice() + "Description: " + item.getDescription());
-        }
-    }
+
 
     public void removeItem(int itemSKU) {
         itemCart.remove(itemSKU);
