@@ -8,7 +8,7 @@ public class User {
 
     public User(String email, String password) {
         session = new Session();
-        cart = new Cart();
+        this.cart = new Cart();
         email = email;
         password = password;
     }
@@ -20,13 +20,14 @@ public class User {
 
     private void handleSessionExpired() {
         if (this.session.isSessionExpired()) {
-            this.cart.clearCart()
+            this.cart.clearCart();
         }
     }
 
     public void addItem(Item item) {
         this.handleUserInteraction();
         // ...
+        this.cart.
     }
 
     public void removeItem(Item item) {
@@ -42,7 +43,11 @@ public class User {
         
         // ... 
     }
-  
+
+    public Cart getCart()
+    {
+        return this.Cart;
+    }
 }
 
 public class Session{
@@ -88,7 +93,7 @@ class MainAccountCreator{
     public User addUser(String email, String password) {
         User newUser = new User(email, password);
         this.db.createUser(newUser); 
-        return newUser
+        return newUser;
     }
 
     public void deleteUser(String email) {
@@ -99,4 +104,69 @@ class MainAccountCreator{
 public interface DB {
     public void createUser(User user);
     public void deleteUserByEmail(String email);
+}
+
+
+public class Item {
+
+    private float itemPrice;
+    private String itemCategory;
+    private int itemQuantity;
+    private String itemName;
+    private String itemDescription;
+    private int itemSKU;
+    private String itemType;
+
+  public static void itemUpdate() {
+    return this.itemQuantity++;
+  }
+
+  public static String getName() {
+    return this.itemName;
+  }
+
+  public static float getPrice() {
+    return this.itemPrice;
+  }
+
+  public static float getDescription() {
+    return this.itemDescription;
+  }
+
+  public static int getItemSKU() {
+    return this.itemSKU;
+  }
+}
+
+class Cart {
+    private List<Item> itemCart = new ArrayList<Item>();
+    public void addItem(Item newItem) {
+        for (int count = 0; count < itemCart.size(); count++) {
+            item = itemCart.get(count);
+            if (item.getItemSKU()) {
+                item.itemUpdate();
+            }
+            else {
+                itemCart.add(newItem);
+            }
+        }
+    }
+    public static void listItems() {
+        for (int count = 0; count < itemCart.size(); count++) {
+            item = itemCart.get(count);
+            System.out.println(item.getName() + ": " + item.getPrice() + "Description: " + item.getDescription());
+        }
+    }
+
+    public static void removeItem(int itemSKU) {
+        itemCart.remove(itemSKU);
+    }
+
+    public static void clearCart(int itemSKU) {
+        itemCart = new ArrayList<Item>();
+    }
+
+    public static Cart getInstance() {
+        return instance;
+    }
 }
