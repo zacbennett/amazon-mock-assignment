@@ -26,27 +26,17 @@ public class User {
 
     public void addItem(Item item) {
         this.handleUserInteraction();
-        // ...
-        this.cart.
+        this.cart.getInstance().addItem(item);
     }
 
     public void removeItem(Item item) {
         this.handleUserInteraction();
-        // ...
-
-        // Note that its possible the item won't be in the cart due it being cleared from session inactivity
-
+        this.cart.getInstance().removeItem(item.getItemSKU());
     }
 
     public List<Item> listItems() {
         this.handleUserInteraction();
-        
-        // ... 
-    }
-
-    public Cart getCart()
-    {
-        return this.Cart;
+        this.cart.getInstance().listItems();
     }
 }
 
@@ -81,7 +71,8 @@ public class Session{
 
 class MainAccountCreator{
     private DB db;
-    private MainAccountCreator instance;
+    private static MainAccountCreator instance;
+
     static {
         instance = new MainAccountCreator();
     }
@@ -117,29 +108,34 @@ public class Item {
     private int itemSKU;
     private String itemType;
 
-  public static void itemUpdate() {
+  public void itemUpdate() {
     return this.itemQuantity++;
   }
 
-  public static String getName() {
+  public String getName() {
     return this.itemName;
   }
 
-  public static float getPrice() {
+  public float getPrice() {
     return this.itemPrice;
   }
 
-  public static float getDescription() {
+  public float getDescription() {
     return this.itemDescription;
   }
 
-  public static int getItemSKU() {
+  public int getItemSKU() {
     return this.itemSKU;
   }
 }
 
 class Cart {
+    private static Cart instance;
     private List<Item> itemCart = new ArrayList<Item>();
+    static {
+        instance = new Cart();
+    }
+    
     public void addItem(Item newItem) {
         for (int count = 0; count < itemCart.size(); count++) {
             item = itemCart.get(count);
@@ -151,22 +147,23 @@ class Cart {
             }
         }
     }
-    public static void listItems() {
+  
+    public void listItems() {
         for (int count = 0; count < itemCart.size(); count++) {
             item = itemCart.get(count);
             System.out.println(item.getName() + ": " + item.getPrice() + "Description: " + item.getDescription());
         }
     }
 
-    public static void removeItem(int itemSKU) {
+    public void removeItem(int itemSKU) {
         itemCart.remove(itemSKU);
     }
 
-    public static void clearCart(int itemSKU) {
+    public void clearCart() {
         itemCart = new ArrayList<Item>();
     }
 
-    public static Cart getInstance() {
+    public Cart getInstance() {
         return instance;
     }
 }
